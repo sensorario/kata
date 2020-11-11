@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "start": "node index.js",
+        "test": "jest --watchAll"
+    },
+    "devDependencies": {
+        "jest": "27.3.1"
+    }
+}
