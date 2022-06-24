@@ -3,4 +3,6 @@ services:
     php:
         restart: always
         build:
-            context: .docker/php/
+            context: docker/php/
+        volumes:
+            - ./app:/app

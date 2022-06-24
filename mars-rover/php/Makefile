@@ -3,6 +3,7 @@ docker := docker-compose
 compose := $(docker) --file docker-compose.yml
 docker_exec := $(compose) exec
 args = $(filter-out $@,$(MAKECMDGOALS))
+tester = ./vendor/bin/phpunit
 
 build:
 	$(docker) build --no-cache
@@ -13,15 +14,15 @@ rebuild: build
 .PHONY: rebuild
 
 enter:
-	$(docker) exec $(php_container) sh
+	$(docker) --workdir /app exec  $(php_container) sh
 .PHONY: enter
 
 test:
-	$(docker_exec) $(php_container) ./vendor/bin/phpunit
+	$(docker_exec) --workdir /app $(php_container) $(tester)
 .PHONY: test
 
 test-filter:
-	$(docker_exec) $(php_container) ./vendor/bin/phpunit --filter $(args)
+	$(docker_exec) --workdir /app $(php_container) $(tester) --filter $(args)
 .PHONY: test-filter
 
 erase: ## erase containers with related volumes
